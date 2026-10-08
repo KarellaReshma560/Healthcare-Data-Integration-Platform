@@ -53,18 +53,17 @@ The project demonstrates practical data engineering concepts including:
 The following raw datasets have been generated and added to the project:
 
 
+| Dataset    | Approx. Records | Purpose|
 
-| Dataset    | Approx. Records | Purpose                               |
+| ---------- | --------------: | -------------- |
 
-| ---------- | --------------: | ------------------------------------- |
+ Patients -      12 		Patient/member information
 
-| Patients   |              12 | Patient/member information            |
+ Encounters -    4,870 		Healthcare visits and clinical events
 
-| Encounters |           4,870 | Healthcare visits and clinical events |
+ Providers  -    42 		Healthcare provider information
 
-| Providers  |              42 | Healthcare provider information       |
-
-| Payers     |              10 | Insurance/payer information           |
+ Payers     -    10 		Insurance/payer information
 
 
 
