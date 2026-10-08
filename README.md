@@ -53,17 +53,18 @@ The project demonstrates practical data engineering concepts including:
 The following raw datasets have been generated and added to the project:
 
 
+
 | Dataset    | Approx. Records | Purpose|
 
 | ---------- | --------------: | -------------- |
 
- Patients -      12 		Patient/member information
+ Patients -      12 -		Patient/member information
 
- Encounters -    4,870 		Healthcare visits and clinical events
+ Encounters -    4,870 	-	Healthcare visits and clinical events
 
- Providers  -    42 		Healthcare provider information
+ Providers  -    42 -		Healthcare provider information
 
- Payers     -    10 		Insurance/payer information
+ Payers     -    10 -		Insurance/payer information
 
 
 
@@ -105,13 +106,13 @@ Current profiling scripts:
 
 scripts/
 
-├── inspect\_patients.py
+├── inspect_patients.py
 
-├── inspect\_encounters.py
+├── inspect_encounters.py
 
-├── inspect\_providers.py
+├── inspect_providers.py
 
-└── inspect\_payers.py
+└── inspect_payers.py
 
 ```
 
@@ -163,41 +164,39 @@ Healthcare-Data-Integration-Platform/
 
 \## Planned ETL Architecture
 
-
-
 ```text
 
 Synthea
 
-&#x20;  ↓
+  ↓
 
 Raw CSV Files
 
-&#x20;  ↓
+  ↓
 
 Python Ingestion \& Profiling
 
-&#x20;  ↓
+  ↓
 
 Azure SQL Staging Layer
 
-&#x20;  ↓
+  ↓
 
 Data Validation \& Transformation
 
-&#x20;  ↓
+  ↓
 
 Relational Healthcare Model
 
-&#x20;  ↓
+  ↓
 
 Azure SQL Database
 
-&#x20;  ↓
+  ↓
 
 Data Quality \& Source-to-Target Reconciliation
 
-&#x20;  ↓
+  ↓
 
 Monitoring / Error Handling / Reprocessing
 
@@ -217,31 +216,31 @@ The project will progressively model relationships between healthcare entities s
 
 Patient
 
-&#x20;  │
+  │
 
-&#x20;  ├──────────────→ Encounter
+  ├──────────────→ Encounter
 
-&#x20;  │                    │
+  │                    │
 
-&#x20;  │                    └──────────────→ Provider
+  │                    └──────────────→ Provider
 
-&#x20;  │
+  │
 
-&#x20;  └──────────────→ Coverage / Payer
+  └──────────────→ Coverage / Payer
 
-&#x20;                          
+                          
 
 
 
 Patient
 
-&#x20;  │
+  │
 
-&#x20;  └──────────────→ Claim
+  └──────────────→ Claim
 
-&#x20;                        │
+                        │
 
-&#x20;                        └──────────────→ Claim Line
+                        └──────────────→ Claim Line
 
 ```
 
@@ -281,21 +280,19 @@ The project will progressively implement:
 
 \## Technology Stack
 
+\*Python
 
+\*pandas
 
-\* \*\*Python\*\*
+\*SQL / T-SQL
 
-\* \*\*pandas\*\*
+\*Azure SQL Database
 
-\* \*\*SQL / T-SQL\*\*
+\*Bash / Linux
 
-\* \*\*Azure SQL Database\*\*
+\*Git / GitHub
 
-\* \*\*Bash / Linux\*\*
-
-\* \*\*Git / GitHub\*\*
-
-\* \*\*Synthea\*\*
+\*Synthea
 
 
 
