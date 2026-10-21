@@ -1,168 +1,95 @@
-\# Healthcare Data Integration Platform
+# Healthcare Data Integration Platform
 
+A healthcare data integration and ETL project built with Python, pandas, SQL/T-SQL, Azure SQL Database, and Synthea synthetic healthcare data.
 
+## Project Overview
 
-A healthcare data integration and ETL platform built using Python, SQL/T-SQL, Azure SQL Database, and Synthea synthetic healthcare data.
+This project simulates a healthcare data pipeline that prepares, validates, and integrates synthetic healthcare data into a relational database.
 
+The goal is to demonstrate practical data engineering skills, including data profiling, relational data modeling, ETL processing, data quality validation, and source-to-target reconciliation.
 
+## Technology Stack
 
-\## Project Overview
+- **Programming:** Python, pandas
+- **Database:** Azure SQL Database, SQL/T-SQL
+- **Data Source:** [Synthea](https://github.com/synthetichealth/synthea)
+- **Tools:** Bash/Linux, Git, GitHub
 
+## Completed Work
 
+### 1. Synthetic Healthcare Data
 
-This project simulates an enterprise healthcare data integration workflow where synthetic healthcare data is ingested, profiled, validated, transformed, and loaded into a relational data platform.
+Generated synthetic healthcare data using Synthea and added the raw CSV files to the project.
 
+Datasets include:
 
+- Patients
+- Providers
+- Payers
+- Encounters
+- Claims
 
-The project demonstrates practical data engineering concepts including:
+### 2. Data Profiling and Validation
 
+Created Python and pandas scripts to inspect source datasets and identify potential data-quality issues.
 
+Checks include:
 
-\* Data ingestion
+- Row and column counts
+- Column names and data types
+- Missing values
+- Duplicate rows and identifiers
+- Relationships between datasets
 
-\* Data profiling and validation
+Validated the available relationships between patients, providers, payers, encounters, and claims. All checked references matched their corresponding source records.
 
-\* Source-to-staging processing
+### 3. Azure SQL Staging Tables
 
-\* Relational data modeling
+- Created an Azure SQL Database named `HealthcareDataDB`.
+- Designed and created five staging tables.
+- Added the table definitions to `sql/01_create_staging_tables.sql`.
 
-\* ETL transformations
+Staging tables:
 
-\* Data quality checks
+- `stg_patients`
+- `stg_providers`
+- `stg_payers`
+- `stg_encounters`
+- `stg_claims`
 
-\* Source-to-target reconciliation
+**Note:** The staging tables have been created. Loading the CSV data into them is the next step.
 
-\* Error handling and reprocessing
-
-\* Pipeline monitoring
-
-
-
-\## Current Progress
-
-
-
-\### 1. Synthetic Healthcare Data
-
-
-
-\[Synthea](https://github.com/synthetichealth/synthea) is used as the source of synthetic healthcare data.
-
-
-
-The following raw datasets have been generated and added to the project:
-
-
-
-| Dataset    | Approx. Records | Purpose|
-
-| ---------- | --------------: | -------------- |
-
- Patients -      12 -		Patient/member information
-
- Encounters -    4,870 	-	Healthcare visits and clinical events
-
- Providers  -    42 -		Healthcare provider information
-
- Payers     -    10 -		Insurance/payer information
-
-
-
-The record counts are intentionally different because each dataset represents a different healthcare entity and has different relationships. For example, one patient can have multiple encounters, while multiple patients can be associated with the same provider or payer.
-
-
-
-\### 2. Data Profiling
-
-
-
-Python and pandas are being used to profile the raw healthcare CSV files before they enter the ETL pipeline.
-
-
-
-Current profiling checks include:
-
-
-
-\* Row and column counts
-
-\* Column names
-
-\* Data types
-
-\* Missing-value counts
-
-\* Duplicate-row checks
-
-\* Duplicate identifier checks
-
-
-
-Current profiling scripts:
-
-
+## Project Structure
 
 ```text
-
-scripts/
-
-├── inspect_patients.py
-
-├── inspect_encounters.py
-
-├── inspect_providers.py
-
-└── inspect_payers.py
-
-```
-
-
-
-The profiling stage identifies potential data-quality issues without modifying the original raw datasets.
-
-
-
-\## Project Structure
-
-
+## Project Structure
 
 ```text
-
 Healthcare-Data-Integration-Platform/
-
-│
-
 ├── data/
-
-│   └── raw/                  # Raw Synthea CSV files
-
-│
-
-├── scripts/                  # Python ingestion and profiling scripts
-
-│
-
-├── sql/                      # SQL/T-SQL schemas and transformations
-
-│
-
-├── tests/                    # Data and pipeline tests
-
-│
-
-├── docs/                     # Architecture and project documentation
-
-│
-
+│   └── raw/                         # Raw Synthea CSV files
+├── scripts/
+│   ├── inspect_patients.py          # Profile patient data
+│   ├── inspect_encounters.py        # Profile encounter data
+│   ├── inspect_providers.py         # Profile provider data
+│   ├── inspect_payers.py            # Profile payer data
+│   └── inspect_relationships.py     # Validate relationships between datasets
+├── sql/
+│   └── 01_create_staging_tables.sql # Create five staging tables
+├── tests/                           # Data and pipeline tests
+├── docs/                            # Project documentation
 ├── .gitignore
-
 └── README.md
+```
+
+The profiling scripts inspect individual datasets, while `inspect_relationships.py` checks whether identifiers referenced across datasets match the corresponding records.
+
 
 ```
 
+## ETL Architecture
 
-
-\## Planned ETL Architecture
+The planned pipeline is:
 
 ```text
 
@@ -202,147 +129,15 @@ Monitoring / Error Handling / Reprocessing
 
 ```
 
+## Next Steps
 
+1. Load the raw CSV data into Azure SQL staging tables.
+2. Validate loaded record counts and data quality.
+3. Develop the relational healthcare data model.
+4. Implement transformations and source-to-target reconciliation.
+5. Add load logging, error handling, and reprocessing.
+6. Explore pipeline orchestration and reporting tools as the project progresses.
 
-\## Planned Healthcare Data Model
+## Project Status
 
-
-
-The project will progressively model relationships between healthcare entities such as:
-
-
-
-```text
-
-Patient
-
-  │
-
-  ├──────────────→ Encounter
-
-  │                    │
-
-  │                    └──────────────→ Provider
-
-  │
-
-  └──────────────→ Coverage / Payer
-
-                          
-
-
-
-Patient
-
-  │
-
-  └──────────────→ Claim
-
-                        │
-
-                        └──────────────→ Claim Line
-
-```
-
-
-
-The relational model will be designed to support healthcare data integration, transformation, validation, and downstream reporting/analytics.
-
-
-
-\## Planned ETL Components
-
-
-
-The project will progressively implement:
-
-
-
-1\. Raw healthcare data ingestion
-
-2\. Staging tables in Azure SQL
-
-3\. Data validation and quality checks
-
-4\. Data transformation
-
-5\. Relational healthcare data model
-
-6\. Source-to-target reconciliation
-
-7\. Error detection and reprocessing
-
-8\. Load and pipeline logging
-
-9\. Monitoring of ETL processing
-
-
-
-\## Technology Stack
-
-\*Python
-
-\*pandas
-
-\*SQL / T-SQL
-
-\*Azure SQL Database
-
-\*Bash / Linux
-
-\*Git / GitHub
-
-\*Synthea
-
-
-
-\## Project Status
-
-
-
-The project is being developed incrementally.
-
-
-
-\### Completed
-
-
-
-\* Set up Synthea as a synthetic healthcare data source
-
-\* Generated patient, encounter, provider, and payer datasets
-
-\* Added raw CSV files to the project
-
-\* Created Python/pandas profiling scripts
-
-\* Implemented basic data-quality profiling checks
-
-\* Set up project version control with Git/GitHub
-
-
-
-\### In Progress / Planned
-
-
-
-\* Analyze relationships and identifiers between healthcare datasets
-
-\* Design relational healthcare schema
-
-\* Create Azure SQL staging tables
-
-\* Implement Python-based ingestion
-
-\* Implement transformations and validation
-
-\* Add claims and claim-line data
-
-\* Implement source-to-target reconciliation
-
-\* Add error handling and reprocessing
-
-\* Add ETL logging and monitoring
-
-
-
+The project is being developed incrementally, with an emphasis on understanding and implementing each stage of the data integration process.
