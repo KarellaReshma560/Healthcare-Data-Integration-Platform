@@ -45,19 +45,43 @@ Validated the available relationships between patients, providers, payers, encou
 
 ### 3. Azure SQL Staging Tables
 
-- Created an Azure SQL Database named `HealthcareDataDB`.
-- Designed and created five staging tables.
-- Added the table definitions to `sql/01_create_staging_tables.sql`.
+Created an Azure SQL Database named HealthcareDataDB.
+
+Designed and created five staging tables.
+
+Stored the table definitions in sql/01_create_staging_tables.sql.
+
+Loaded the raw CSV data into the corresponding staging tables.
+
+Added a primary key to dbo.stg_claims on the Id column.
+
+Implemented a Python claims loader with batch commits, duplicate-ID checks, retry handling, and source-to-target row-count validation.
 
 Staging tables:
 
-- `stg_patients`
-- `stg_providers`
-- `stg_payers`
-- `stg_encounters`
-- `stg_claims`
+- **dbo.stg_patients**
 
-**Note:** The staging tables have been created. Loading the CSV data into them is the next step.
+- **dbo.stg_providers**
+
+- **dbo.stg_payers**
+
+- **dbo.stg_encounters**
+
+- **dbo.stg_claims**
+
+The staging layer provides a foundation for subsequent data-quality checks, transformations, and relational modeling.
+
+4. SQL Development
+
+Created SQL scripts to define and manage the staging tables and support database development.
+
+The sql/ directory contains the project's SQL scripts for table creation, schema changes, and other database operations.
+
+5. Python ETL Scripts
+
+Developed Python scripts to profile source data, validate relationships, connect to Azure SQL Database, and load data into staging tables.
+
+The claims loader supports batch processing and resuming interrupted loads by checking claim IDs already present in the target table.
 
 ## Project Structure
 
@@ -67,23 +91,31 @@ Staging tables:
 ```text
 Healthcare-Data-Integration-Platform/
 ├── data/
-│   └── raw/                         # Raw Synthea CSV files
+│   └── raw/                              # Raw Synthea CSV files
 ├── scripts/
-│   ├── inspect_patients.py          # Profile patient data
-│   ├── inspect_encounters.py        # Profile encounter data
-│   ├── inspect_providers.py         # Profile provider data
-│   ├── inspect_payers.py            # Profile payer data
-│   └── inspect_relationships.py     # Validate relationships between datasets
+│   ├── check_connection.py
+│   ├── db_connection.py
+│   ├── inspect_claims.py
+│   ├── inspect_encounters.py
+│   ├── inspect_patients.py
+│   ├── inspect_payers.py
+│   ├── inspect_providers.py
+│   ├── inspect_relationships.py
+│   ├── load_claims.py
+│   ├── load_encounters.py
+│   ├── load_patients.py
+│   ├── load_payers.py
+│   ├── load_providers.py
+│   └── main.py
 ├── sql/
-│   └── 01_create_staging_tables.sql # Create five staging tables
-├── tests/                           # Data and pipeline tests
-├── docs/                            # Project documentation
+│   ├── 01_create_staging_tables.sql
+│   ├── 02_check_and_add_primary_keys.sql
+│   └── 03_Checking Data after loading.sql
+├── tests/
+├── docs/
 ├── .gitignore
 └── README.md
 ```
-
-The profiling scripts inspect individual datasets, while `inspect_relationships.py` checks whether identifiers referenced across datasets match the corresponding records.
-
 
 ```
 
@@ -94,50 +126,37 @@ The planned pipeline is:
 ```text
 
 Synthea
-
-  ↓
-
+   ↓
 Raw CSV Files
-
-  ↓
-
-Python Ingestion \& Profiling
-
-  ↓
-
-Azure SQL Staging Layer
-
-  ↓
-
-Data Validation \& Transformation
-
-  ↓
-
-Relational Healthcare Model
-
-  ↓
-
-Azure SQL Database
-
-  ↓
-
-Data Quality \& Source-to-Target Reconciliation
-
-  ↓
-
-Monitoring / Error Handling / Reprocessing
+   ↓
+Python Data Profiling and Validation
+   ↓
+Azure SQL Staging Tables
+   ↓
+Data Quality Checks and Reconciliation
+   ↓
+Relational Healthcare Data Model
+   ↓
+Production Data Loading
+   ↓
+Monitoring and Error Handling
 
 ```
+The source-data generation, profiling, staging-table creation, and staging loads are implemented. Further validation, production-layer modeling, and monitoring capabilities will be developed incrementally.
 
 ## Next Steps
 
-1. Load the raw CSV data into Azure SQL staging tables.
-2. Validate loaded record counts and data quality.
-3. Develop the relational healthcare data model.
-4. Implement transformations and source-to-target reconciliation.
-5. Add load logging, error handling, and reprocessing.
-6. Explore pipeline orchestration and reporting tools as the project progresses.
+1.Validate staging-table row counts and data quality.
+2.Implement comprehensive source-to-target reconciliation.
+3.Design the relational healthcare data model.
+4.Create production tables and appropriate foreign-key relationships.
+5.Implement transformations and production-layer loading.
+6.Add load logging, error handling, and reprocessing.
+7.Explore pipeline orchestration and reporting tools.
+
 
 ## Project Status
 
-The project is being developed incrementally, with an emphasis on understanding and implementing each stage of the data integration process.
+All five synthetic healthcare datasets have been loaded into Azure SQL staging tables, and each staging table has a primary key on its Id column.
+
+The project is progressing toward a complete healthcare data integration pipeline, with a focus on data quality, reliable ETL processing, and relational data modeling.
